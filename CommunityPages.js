@@ -6,28 +6,30 @@ import DonationCard from './Donationcard';
 
 const DonationList = () => {
   const [donations, setDonations] = useState([]);
+  const [filterdonates , setfilterDonates]= useState([]);
 
-  useEffect(() => {
-    const fetchDonations = async () => {
-      const querySnapshot = await getDocs(collection(db, 'donations'));
-      const donationsData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setDonations(donationsData);
-    };
-
-    fetchDonations();
+ useEffect(() => {
+        fetchDonations();
   }, []);
 
+ const fetchDonations = async () => {
+    const querySnapshot = await getDocs(collection(db, 'donations'));
+    const donationsData = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setDonations(donationsData);
+    setfilterDonates(donationsData);2
+ }
+
   const handleClick = (item) => {
-    console.log(item);
-    // Handle card click (e.g., navigate to details or open modal)
+    setfilterDonates(item);
+   
   };
 
   return (
     <div className="donation-list">
-      {donations.map((item) => (
+      {filterdonates.map((item) => (
         <DonationCard key={item.id} item={item} onClick={handleClick} />
       ))}
     </div>
